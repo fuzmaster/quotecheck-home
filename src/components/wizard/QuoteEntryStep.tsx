@@ -1,2 +1,45 @@
-import { quotesSchema } from "../../schemas/zodQuotes";import { useWizardStore } from "../../store/useWizardStore";import { Card } from "../ui/Card";import { Button } from "../ui/Button";import { QuoteCard } from "./QuoteCard";
-export function QuoteEntryStep(){const quotes=useWizardStore(s=>s.quotes);const addQuote=useWizardStore(s=>s.addQuote);const setStep=useWizardStore(s=>s.setStep);const isValid=quotesSchema.safeParse(quotes).success;return <Card><h2 className="text-2xl font-black">Enter 2 to 5 quotes</h2><p className="mt-2 text-sm text-slate-600">Use structured manual entry only. Do not upload PDFs or rely on OCR for this MVP.</p><div className="mt-5 space-y-4">{quotes.map((q,i)=><QuoteCard key={q.id} quote={q} index={i}/>)}</div><div className="mt-6 flex flex-wrap justify-between gap-3"><Button variant="secondary" onClick={()=>setStep(0)}>Back</Button><div className="flex gap-3"><Button variant="secondary" disabled={quotes.length>=5} onClick={addQuote}>Add quote</Button><Button disabled={!isValid} onClick={()=>setStep(2)}>Continue to scope</Button></div></div></Card>}
+import { quotesSchema } from "../../schemas/zodQuotes";
+import { useWizardStore } from "../../store/useWizardStore";
+import { Card } from "../ui/Card";
+import { Button } from "../ui/Button";
+import { QuoteCard } from "./QuoteCard";
+
+export function QuoteEntryStep() {
+  const quotes = useWizardStore((s) => s.quotes);
+  const addQuote = useWizardStore((s) => s.addQuote);
+  const setStep = useWizardStore((s) => s.setStep);
+  const isValid = quotesSchema.safeParse(quotes).success;
+
+  return (
+    <Card>
+      <h2 className="text-2xl font-black">Enter 2 to 5 quotes</h2>
+      <p className="mt-2 text-sm text-slate-600">
+        Use structured manual entry only. Do not upload PDFs or rely on OCR for this MVP.
+      </p>
+      <div className="mt-5 space-y-4">
+        {quotes.map((q, i) => (
+          <QuoteCard key={q.id} quote={q} index={i} />
+        ))}
+      </div>
+      <div className="mt-6 flex flex-wrap justify-between gap-3">
+        <Button variant="secondary" onClick={() => setStep(0)}>
+          Back
+        </Button>
+        <div className="flex gap-3">
+          <Button variant="secondary" disabled={quotes.length >= 5} onClick={addQuote}>
+            Add quote
+          </Button>
+          <Button disabled={!isValid} onClick={() => setStep(2)}>
+            Continue to scope
+          </Button>
+        </div>
+      </div>
+      {!isValid && (
+        <p className="mt-3 text-sm font-bold text-red-600">
+          Enter contractor names, total prices, deposit amounts, and timelines for at least 2
+          quotes.
+        </p>
+      )}
+    </Card>
+  );
+}
