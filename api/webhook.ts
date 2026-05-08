@@ -2,8 +2,8 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 import crypto from "node:crypto";
 import Stripe from "stripe";
 export const config = { api: { bodyParser: false } };
-const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: "2024-12-18.acacia" }) : null;
-async function readRawBody(req: VercelRequest): Promise<Buffer> { const chunks: Buffer[] = []; for await (const chunk of req) chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)); return Buffer.concat(chunks); }
+const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: "2025-02-24.acacia" }) : null;
+async function readRawBody(req: VercelRequest): Promise<Buffer> { const chunks: Buffer[] = []; for await (const chunk of req) chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)); return Buffer.concat(chunks as unknown as readonly Uint8Array[]); }
 function issueSignedFulfillmentToken(reportId: string, sessionId: string) {
   const secret = process.env.PREMIUM_TOKEN_SECRET;
   if (!secret) throw new Error("Missing PREMIUM_TOKEN_SECRET.");
