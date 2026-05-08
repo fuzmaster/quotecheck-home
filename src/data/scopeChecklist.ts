@@ -1,0 +1,1 @@
+export const scopeChecklistLabels = { laborIncluded:"Labor clearly included", materialsIncluded:"Materials clearly included", permitsIncluded:"Permits clearly included or addressed", cleanupIncluded:"Cleanup and debris removal clearly included", warrantyIncluded:"Warranty clearly included" };

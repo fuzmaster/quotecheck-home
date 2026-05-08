@@ -1,0 +1,3 @@
+import type { Quote } from "../types/quote"; import type { RiskFlag } from "../types/report";
+const fields = [["laborIncluded","Labor is not clearly included."],["materialsIncluded","Materials are not clearly included."],["permitsIncluded","Permits are not clearly addressed."],["cleanupIncluded","Cleanup and debris removal are not clearly included."],["warrantyIncluded","Warranty terms are not clearly included."]] as const;
+export function detectMissingScope(quotes:Quote[]):RiskFlag[]{return quotes.flatMap(q=>fields.filter(([f])=>q[f]!=="yes").map(([,detail])=>({quoteId:q.id,title:`${q.contractorName}: missing or unclear scope`,level:"Missing Information" as const,detail})))}

@@ -1,0 +1,1 @@
+export function Footer(){return <footer className="mx-auto max-w-6xl px-4 py-8 text-sm text-slate-500">QuoteCheck Home does not provide legal, construction, engineering, insurance, or financial advice.</footer>}

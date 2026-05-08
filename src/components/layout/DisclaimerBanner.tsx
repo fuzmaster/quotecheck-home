@@ -1,0 +1,1 @@
+export function DisclaimerBanner(){return <div className="rounded-2xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950"><strong>Important:</strong> This is an educational decision-support tool. It does not verify contractor accuracy, detect fraud, certify construction scope, or replace legal, engineering, insurance, financial, or professional advice.</div>}

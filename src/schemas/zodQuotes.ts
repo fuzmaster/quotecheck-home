@@ -1,0 +1,4 @@
+import { z } from "zod";
+export const quoteSchema = z.object({ id:z.string(), contractorName:z.string().min(2,"Enter a contractor name."), totalPrice:z.coerce.number().positive("Price must be greater than 0."), depositAmount:z.coerce.number().min(0,"Deposit cannot be negative."), timelineDays:z.coerce.number().int().positive("Timeline must be at least 1 day."), laborIncluded:z.enum(["yes","no","not_sure"]), materialsIncluded:z.enum(["yes","no","not_sure"]), permitsIncluded:z.enum(["yes","no","not_sure"]), cleanupIncluded:z.enum(["yes","no","not_sure"]), warrantyIncluded:z.enum(["yes","no","not_sure"]), materialQuality:z.enum(["basic","standard","premium","not_sure"]), notes:z.string().max(2000).default("") });
+export const quotesSchema = z.array(quoteSchema).min(2).max(5);
+export type QuoteFormValues = z.infer<typeof quoteSchema>;

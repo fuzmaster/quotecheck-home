@@ -1,0 +1,1 @@
+export const projectTypes = ["Kitchen remodel","Bathroom remodel","Roof repair or replacement","Deck or porch","Flooring","Painting","Plumbing","Electrical","HVAC","Basement","General repair","Other"];
