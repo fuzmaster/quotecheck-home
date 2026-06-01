@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#FAF8F3" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://quotecheck.homes/privacy.html" />
+    <title>Privacy Policy — QuoteCheck Home</title>
+    <meta name="description" content="What QuoteCheck Home collects, where it goes, and how to remove it." />
+    <meta name="robots" content="index, follow" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root { --paper:#FAF8F3; --ink:#1F1B16; --body:#4A443B; --muted:#8A8175; --line:#E9E2D6; --teal:#0E5A56; }
+      html, body { margin: 0; background: var(--paper); color: var(--body); font-family: "Inter", system-ui, sans-serif; line-height: 1.6; }
+      .wrap { max-width: 720px; margin: 0 auto; padding: 56px 24px 80px; }
+      h1, h2 { font-family: "Fraunces", Georgia, serif; color: var(--ink); margin: 0; letter-spacing: -0.012em; }
+      h1 { font-size: 40px; font-weight: 560; line-height: 1.05; }
+      h2 { font-size: 22px; font-weight: 560; margin-top: 36px; margin-bottom: 8px; }
+      p { font-size: 16px; }
+      ul { padding-left: 22px; }
+      li { margin: 4px 0; }
+      a { color: var(--teal); }
+      .meta { color: var(--muted); font-size: 13px; margin-top: 8px; }
+      .back { display: inline-block; margin-bottom: 28px; font-size: 13px; color: var(--muted); text-decoration: none; }
+      .back:hover { color: var(--ink); }
+      strong { color: var(--ink); }
+      hr { border: none; border-top: 1px solid var(--line); margin: 36px 0; }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <a class="back" href="/">&larr; Back to QuoteCheck Home</a>
+      <h1>Privacy Policy</h1>
+      <p class="meta">Last updated: June 2026</p>
+
+      <h2>What we collect</h2>
+      <p>
+        QuoteCheck Home is a single-page tool that runs in your browser. Everything you type
+        into the wizard — your ZIP code, project type, room description, contractor names,
+        prices, timelines, and free-text notes — is stored only in your browser's
+        <code>localStorage</code>. It is <strong>never sent to our servers</strong>.
+      </p>
+      <ul>
+        <li>Project basics (ZIP, project type, area, urgency, permit likelihood)</li>
+        <li>Contractor names, total prices, deposit amounts, timelines, material quality, notes</li>
+        <li>Your scope-checklist answers</li>
+        <li>The generated comparison report</li>
+      </ul>
+
+      <h2>What we send to our servers</h2>
+      <p>
+        The only information that ever leaves your browser to a server we operate is an
+        opaque <code>reportId</code> (a random UUID) when you start a checkout or verify
+        a Stripe session. We do not store this <code>reportId</code> anywhere.
+      </p>
+
+      <h2>Payments (Stripe)</h2>
+      <p>
+        If you choose to purchase the premium report (when available), payment is handled
+        entirely by <a href="https://stripe.com/privacy">Stripe</a>. Stripe collects your
+        email address and payment details on its own servers under its own privacy policy.
+        We never see your card number. We receive a payment-confirmation webhook from
+        Stripe containing only a session ID and the opaque <code>reportId</code>.
+      </p>
+
+      <h2>Analytics &amp; cookies</h2>
+      <p>
+        We do not set tracking cookies. We do not run third-party analytics. Stripe Checkout
+        sets its own cookies on the Stripe domain when you visit it.
+      </p>
+
+      <h2>Deletion &amp; export</h2>
+      <p>
+        Because everything lives in your browser, you can erase all QuoteCheck data by
+        clearing your browser storage for this site (in your browser settings under
+        "Site data" or "Cookies and other site data"). To request deletion of any
+        Stripe-side payment record, see Stripe's privacy controls.
+      </p>
+
+      <h2>Disclosure</h2>
+      <p>
+        QuoteCheck Home is an educational decision-support tool. It does not provide legal,
+        construction, engineering, insurance, or financial advice. It does not verify
+        contractor accuracy, detect fraud, or certify construction scope.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions about this policy: <a href="https://jacobbritten.com">jacobbritten.com</a>.
+      </p>
+
+      <hr />
+      <p class="meta">
+        <a href="/">QuoteCheck Home</a> &middot; <a href="/terms.html">Terms</a>
+      </p>
+    </main>
+  </body>
+</html>

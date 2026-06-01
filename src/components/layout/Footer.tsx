@@ -11,6 +11,11 @@ export function Footer() {
     <footer className="qc-footer">
       <div className="qc-footer-top">
         QuoteCheck Home does not provide legal, construction, engineering, insurance, or financial advice.
+        <span style={{ marginLeft: 10 }}>
+          <a href="/privacy.html" style={{ color: "var(--ink)", textDecoration: "underline" }}>Privacy</a>
+          {" · "}
+          <a href="/terms.html" style={{ color: "var(--ink)", textDecoration: "underline" }}>Terms</a>
+        </span>
       </div>
       <div className="qc-footer-bot">
         <div className="qc-footer-bot-inner">
