@@ -1,2 +1,76 @@
-import { useWizardStore } from "../../store/useWizardStore";import { formatCurrency } from "../../lib/formatCurrency";import { Card } from "../ui/Card";import { Button } from "../ui/Button";
-export function ReviewStep(){const project=useWizardStore(s=>s.project);const quotes=useWizardStore(s=>s.quotes);const setStep=useWizardStore(s=>s.setStep);const createReport=useWizardStore(s=>s.createReport);return <Card><h2 className="text-2xl font-black">Review before generating report</h2><div className="mt-5 rounded-2xl bg-slate-100 p-4"><p className="font-bold">{project.projectType}</p><p className="text-sm text-slate-600">{project.projectArea} · ZIP {project.zipCode} · Permit likely: {project.permitLikely}</p></div><div className="mt-5 overflow-hidden rounded-2xl border border-slate-200"><table className="w-full text-left text-sm"><thead className="bg-slate-100"><tr><th className="p-3">Contractor</th><th className="p-3">Price</th><th className="p-3">Deposit</th><th className="p-3">Timeline</th></tr></thead><tbody>{quotes.map(q=><tr key={q.id} className="border-t border-slate-200"><td className="p-3 font-bold">{q.contractorName}</td><td className="p-3">{formatCurrency(q.totalPrice)}</td><td className="p-3">{formatCurrency(q.depositAmount)}</td><td className="p-3">{q.timelineDays} days</td></tr>)}</tbody></table></div><div className="mt-6 flex justify-between"><Button variant="secondary" onClick={()=>setStep(2)}>Back</Button><Button onClick={createReport}>Generate QuoteCheck report</Button></div></Card>}
+import { useWizardStore } from "../../store/useWizardStore";
+import { formatCurrency } from "../../lib/formatCurrency";
+import { Card } from "../ui/Card";
+import { Button } from "../ui/Button";
+import { Icon } from "../ui/Icon";
+
+const LETTER = ["A", "B", "C", "D", "E"];
+
+export function ReviewStep() {
+  const project = useWizardStore((s) => s.project);
+  const quotes = useWizardStore((s) => s.quotes);
+  const setStep = useWizardStore((s) => s.setStep);
+  const createReport = useWizardStore((s) => s.createReport);
+
+  return (
+    <Card>
+      <span className="qc-eyebrow">Step 4 of 4</span>
+      <h2 className="qc-section-title" style={{ marginTop: 8 }}>
+        Review before generating
+      </h2>
+      <p className="qc-section-sub">
+        A last look at what you entered. You can still go back and edit.
+      </p>
+
+      <div className="qc-review-banner qc-mt-6">
+        <div className="ttl">{project.projectType || "Project"}</div>
+        <div className="meta">
+          {project.projectArea || "—"} · ZIP {project.zipCode || "—"} · Permit likely:{" "}
+          {project.permitLikely.replace("_", " ")}
+        </div>
+      </div>
+
+      <div className="qc-review-table-wrap qc-mt-5">
+        <table className="qc-doc-table">
+          <thead>
+            <tr>
+              <th style={{ paddingLeft: 16 }}>Contractor</th>
+              <th className="num">Price</th>
+              <th className="num">Deposit</th>
+              <th className="num" style={{ paddingRight: 16 }}>
+                Timeline
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {quotes.map((q, i) => (
+              <tr key={q.id}>
+                <td style={{ paddingLeft: 16 }}>
+                  <div className="c-name">
+                    <span className="dotlet">{LETTER[i]}</span>
+                    <span className="nm">{q.contractorName || "—"}</span>
+                  </div>
+                </td>
+                <td className="num price-lead">{formatCurrency(q.totalPrice)}</td>
+                <td className="num">{formatCurrency(q.depositAmount)}</td>
+                <td className="num" style={{ paddingRight: 16 }}>
+                  {q.timelineDays} days
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <hr className="qc-divider qc-mt-6" />
+      <div className="qc-row qc-between qc-mt-5">
+        <Button variant="secondary" onClick={() => setStep(2)}>
+          <Icon.arrowL fill="" /> Back
+        </Button>
+        <Button onClick={createReport}>
+          <Icon.spark fill="" /> Generate QuoteCheck report
+        </Button>
+      </div>
+    </Card>
+  );
+}

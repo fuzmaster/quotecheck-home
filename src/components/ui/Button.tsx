@@ -1,3 +1,16 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
-type Props=ButtonHTMLAttributes<HTMLButtonElement>&{children:ReactNode;variant?:"primary"|"secondary"|"danger"};
-export function Button({children,variant="primary",className="",...props}:Props){const styles={primary:"bg-slate-950 text-white hover:bg-slate-800",secondary:"bg-white text-slate-950 border border-slate-300 hover:bg-slate-100",danger:"bg-red-600 text-white hover:bg-red-700"};return <button className={`rounded-xl px-4 py-2 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50 ${styles[variant]} ${className}`} {...props}>{children}</button>}
+
+type Variant = "primary" | "secondary" | "ghost" | "danger";
+
+type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
+  children: ReactNode;
+  variant?: Variant;
+};
+
+export function Button({ children, variant = "primary", className = "", ...props }: Props) {
+  return (
+    <button className={`qc-btn qc-btn-${variant} ${className}`.trim()} {...props}>
+      {children}
+    </button>
+  );
+}

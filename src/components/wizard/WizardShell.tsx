@@ -1,3 +1,32 @@
-import { DisclaimerBanner } from "../layout/DisclaimerBanner";import { ProjectBasicsStep } from "./ProjectBasicsStep";import { QuoteEntryStep } from "./QuoteEntryStep";import { ScopeChecklistStep } from "./ScopeChecklistStep";import { ReviewStep } from "./ReviewStep";import { useWizardStore } from "../../store/useWizardStore";
-const labels=["Project","Quotes","Scope","Review"];
-export function WizardShell(){const step=useWizardStore(s=>s.step);return <div className="space-y-6"><DisclaimerBanner/><div><h1 className="text-4xl font-black tracking-tight">Do not sign a vague contractor quote.</h1><p className="mt-3 max-w-3xl text-lg text-slate-600">Enter structured details from 2 to 5 contractor quotes. Get a plain-English comparison, missing-scope warnings, and copy-paste questions to send before paying a deposit.</p></div><div className="grid grid-cols-4 gap-2">{labels.map((label,index)=><div key={label} className={`rounded-xl px-3 py-2 text-center text-sm font-bold ${index===step?"bg-slate-950 text-white":"bg-white text-slate-500"}`}>{index+1}. {label}</div>)}</div>{step===0&&<ProjectBasicsStep/>}{step===1&&<QuoteEntryStep/>}{step===2&&<ScopeChecklistStep/>}{step===3&&<ReviewStep/>}</div>}
+import { DisclaimerBanner } from "../layout/DisclaimerBanner";
+import { Stepper } from "../layout/Stepper";
+import { ProjectBasicsStep } from "./ProjectBasicsStep";
+import { QuoteEntryStep } from "./QuoteEntryStep";
+import { ScopeChecklistStep } from "./ScopeChecklistStep";
+import { ReviewStep } from "./ReviewStep";
+import { useWizardStore } from "../../store/useWizardStore";
+
+export function WizardShell() {
+  const step = useWizardStore((s) => s.step);
+  return (
+    <div className="qc-stack">
+      <DisclaimerBanner />
+      <div className="qc-hero">
+        <h1>
+          Don't sign a <span className="accent">vague</span> contractor quote.
+        </h1>
+        <p className="lede">
+          Enter structured details from 2 to 5 contractor quotes. Get a plain-English comparison,
+          missing-scope warnings, and copy-paste questions to send before you pay a deposit.
+        </p>
+      </div>
+      <div className="qc-card tight" style={{ padding: "18px 20px" }}>
+        <Stepper step={step} />
+      </div>
+      {step === 0 && <ProjectBasicsStep />}
+      {step === 1 && <QuoteEntryStep />}
+      {step === 2 && <ScopeChecklistStep />}
+      {step === 3 && <ReviewStep />}
+    </div>
+  );
+}

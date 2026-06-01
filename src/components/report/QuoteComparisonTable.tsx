@@ -1,2 +1,74 @@
-import type { Quote } from "../../types/quote";import type { QuoteSpread } from "../../types/report";import { Card } from "../ui/Card";import { formatCurrency } from "../../lib/formatCurrency";
-export function QuoteComparisonTable({quotes,spread}:{quotes:Quote[];spread:QuoteSpread}){return <Card className="print-card"><h2 className="text-2xl font-black">Quote comparison</h2><div className="mt-5 overflow-x-auto"><table className="w-full min-w-[760px] text-left text-sm"><thead className="bg-slate-100"><tr><th className="p-3">Contractor</th><th className="p-3">Price</th><th className="p-3">From low</th><th className="p-3">Deposit</th><th className="p-3">Timeline</th><th className="p-3">Warranty</th><th className="p-3">Permits</th></tr></thead><tbody>{quotes.map(q=>{const fromLow=spread.low>0?Math.round(((q.totalPrice-spread.low)/spread.low)*100):0;return <tr key={q.id} className="border-t border-slate-200"><td className="p-3 font-bold">{q.contractorName}</td><td className="p-3">{formatCurrency(q.totalPrice)}</td><td className="p-3">{fromLow}%</td><td className="p-3">{formatCurrency(q.depositAmount)}</td><td className="p-3">{q.timelineDays} days</td><td className="p-3 capitalize">{q.warrantyIncluded.replace("_"," ")}</td><td className="p-3 capitalize">{q.permitsIncluded.replace("_"," ")}</td></tr>})}</tbody></table></div></Card>}
+import type { Quote } from "../../types/quote";
+import type { QuoteSpread } from "../../types/report";
+import { Card } from "../ui/Card";
+import { formatCurrency } from "../../lib/formatCurrency";
+
+const LETTER = ["A", "B", "C", "D", "E"];
+
+export function QuoteComparisonTable({
+  quotes,
+  spread,
+}: {
+  quotes: Quote[];
+  spread: QuoteSpread;
+}) {
+  return (
+    <Card className="print-card">
+      <span className="qc-eyebrow">Side by side</span>
+      <h2 className="qc-section-title" style={{ marginTop: 8, marginBottom: 4 }}>
+        Quote comparison
+      </h2>
+      <p className="qc-section-sub" style={{ marginBottom: 18 }}>
+        Lowest bid highlighted. "From low" shows how much more each costs versus the cheapest.
+      </p>
+      <div style={{ overflowX: "auto" }}>
+        <table className="qc-doc-table" style={{ minWidth: 720 }}>
+          <thead>
+            <tr>
+              <th>Contractor</th>
+              <th className="num">Price</th>
+              <th className="num">From low</th>
+              <th className="num">Deposit</th>
+              <th className="num">Timeline</th>
+              <th>Warranty</th>
+              <th>Permits</th>
+            </tr>
+          </thead>
+          <tbody>
+            {quotes.map((q, i) => {
+              const fromLow =
+                spread.low > 0 ? Math.round(((q.totalPrice - spread.low) / spread.low) * 100) : 0;
+              const isLow = q.totalPrice === spread.low && spread.low > 0;
+              return (
+                <tr key={q.id} className={isLow ? "is-low" : ""}>
+                  <td>
+                    <div className="c-name">
+                      <span className="dotlet">{LETTER[i]}</span>
+                      <span className="nm">{q.contractorName || "—"}</span>
+                    </div>
+                  </td>
+                  <td className="num price-lead">{formatCurrency(q.totalPrice)}</td>
+                  <td className="num">
+                    {isLow ? (
+                      <span className="qc-pct-base">lowest</span>
+                    ) : (
+                      <span className="qc-pct-up">+{fromLow}%</span>
+                    )}
+                  </td>
+                  <td className="num">{formatCurrency(q.depositAmount)}</td>
+                  <td className="num">{q.timelineDays} days</td>
+                  <td style={{ textTransform: "capitalize" }}>
+                    {q.warrantyIncluded.replace("_", " ")}
+                  </td>
+                  <td style={{ textTransform: "capitalize" }}>
+                    {q.permitsIncluded.replace("_", " ")}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </Card>
+  );
+}

@@ -1,1 +1,42 @@
-import { Card } from "../ui/Card";export function FollowUpQuestions({questions}:{questions:string[]}){return <Card className="print-card"><h2 className="text-2xl font-black">Copy-paste contractor questions</h2><div className="mt-5 space-y-3">{questions.slice(0,10).map((q,i)=><div key={q} className="rounded-2xl bg-slate-100 p-4 text-sm"><p className="font-bold">Question {i+1}</p><p className="mt-1 text-slate-700">{q}</p></div>)}</div></Card>}
+import { useState } from "react";
+import { Card } from "../ui/Card";
+import { Icon } from "../ui/Icon";
+
+export function FollowUpQuestions({ questions }: { questions: string[] }) {
+  const [copied, setCopied] = useState(false);
+  const qs = questions.slice(0, 10);
+
+  function copyAll() {
+    const text = qs.map((q, i) => `${i + 1}. ${q}`).join("\n");
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).catch(() => {});
+    }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1800);
+  }
+
+  return (
+    <Card className="print-card">
+      <div className="qc-row qc-between qc-wrap qc-gap-3" style={{ marginBottom: 18 }}>
+        <div>
+          <span className="qc-eyebrow">Send before you pay</span>
+          <h2 className="qc-section-title" style={{ marginTop: 8 }}>
+            Copy-paste contractor questions
+          </h2>
+        </div>
+        <button className="qc-copy-all no-print" onClick={copyAll} type="button">
+          {copied ? <Icon.check fill="" /> : <Icon.copy fill="" />}
+          {copied ? "Copied" : "Copy all"}
+        </button>
+      </div>
+      <div>
+        {qs.map((q, i) => (
+          <div key={`${q}-${i}`} className="qc-q">
+            <span className="qn">{i + 1}</span>
+            <span className="qt">{q}</span>
+          </div>
+        ))}
+      </div>
+    </Card>
+  );
+}

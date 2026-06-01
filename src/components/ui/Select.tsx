@@ -1,1 +1,11 @@
-import type { SelectHTMLAttributes } from "react"; export function Select(props:SelectHTMLAttributes<HTMLSelectElement>){return <select {...props} className={`w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm outline-none ring-slate-950 focus:ring-2 ${props.className??""}`}/>}
+import type { ReactNode, SelectHTMLAttributes } from "react";
+
+type Props = SelectHTMLAttributes<HTMLSelectElement> & { children?: ReactNode };
+
+export function Select({ className = "", children, ...props }: Props) {
+  return (
+    <select {...props} className={`qc-select ${className}`.trim()}>
+      {children}
+    </select>
+  );
+}

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
+import { Badge } from "../ui/Badge";
+import { Icon } from "../ui/Icon";
 import {
   getStoredPremiumToken,
   hasMockPremiumUnlock,
@@ -29,13 +31,12 @@ export function PremiumReportLock({ reportId }: { reportId: string }) {
         throw new Error(data.error ?? "Unable to start checkout.");
       }
       window.location.href = data.url;
-    } catch (error) {
+    } catch (e) {
       if (import.meta.env.DEV) {
         setMockPremiumUnlock(reportId);
         setUnlocked(true);
         return;
       }
-
       setError("Checkout could not be started. Please try again.");
     } finally {
       setLoading(false);
@@ -62,28 +63,62 @@ export function PremiumReportLock({ reportId }: { reportId: string }) {
 
   return (
     <Card className="print-card">
-      <h2 className="text-2xl font-black">Premium report section</h2>
+      <span className="qc-eyebrow">Premium</span>
+      <h2 className="qc-section-title" style={{ marginTop: 8, marginBottom: 14 }}>
+        Premium report section
+      </h2>
       {unlocked ? (
-        <div className="mt-4 rounded-2xl bg-emerald-50 p-4 text-sm text-emerald-950">
-          <p className="font-black">Unlocked</p>
-          <ul className="mt-2 list-disc space-y-1 pl-5">
-            <li>Save this report as a PDF for family review.</li>
-            <li>Send the contractor questions before signing.</li>
-            <li>Ask for written clarification on every missing-information item.</li>
-            <li>Do not pay a large deposit until the written scope is clear.</li>
+        <div className="qc-premium unlocked">
+          <Badge tone="good" dot>
+            Unlocked
+          </Badge>
+          <ul className="qc-check-list">
+            <li>
+              <Icon.check fill="" /> Save this report as a PDF for family review.
+            </li>
+            <li>
+              <Icon.check fill="" /> Send the contractor questions before signing.
+            </li>
+            <li>
+              <Icon.check fill="" /> Ask for written clarification on every flagged item.
+            </li>
+            <li>
+              <Icon.check fill="" /> Don't pay a large deposit until the written scope is clear.
+            </li>
           </ul>
         </div>
       ) : (
-        <div className="mt-4 rounded-2xl border border-slate-200 p-4">
-          <p className="text-sm text-slate-600">
-            Unlock the clean premium report packet for printing, family review, and contractor
-            follow-up. Development mode falls back to a local mock unlock if Stripe is not
-            configured.
-          </p>
-          <Button className="mt-4" disabled={loading} onClick={unlockWithStripe}>
-            {loading ? "Opening checkout..." : "Unlock report"}
-          </Button>
-          {error && <p className="mt-2 text-sm font-bold text-red-600">{error}</p>}
+        <div className="qc-premium">
+          <div className="qc-row qc-gap-3" style={{ alignItems: "flex-start", gap: 13 }}>
+            <span className="qc-premium-icon">
+              <Icon.lock fill="" />
+            </span>
+            <div>
+              <p
+                style={{
+                  fontSize: 14,
+                  color: "var(--body)",
+                  margin: 0,
+                  maxWidth: "60ch",
+                  lineHeight: 1.55,
+                }}
+              >
+                Unlock the clean premium report packet for printing, family review, and contractor
+                follow-up. Development mode falls back to a local mock unlock if Stripe isn't
+                configured.
+              </p>
+              <Button
+                className="no-print"
+                style={{ marginTop: 14 }}
+                disabled={loading}
+                onClick={unlockWithStripe}
+              >
+                <Icon.spark fill="" />
+                {loading ? "Opening checkout..." : "Unlock report"}
+              </Button>
+              {error && <p className="qc-error qc-mt-4">{error}</p>}
+            </div>
+          </div>
         </div>
       )}
     </Card>

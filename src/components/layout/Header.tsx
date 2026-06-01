@@ -1,1 +1,23 @@
-export function Header(){return <header className="border-b border-slate-200 bg-white"><div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4"><div><p className="text-xl font-black tracking-tight">QuoteCheck Home</p><p className="text-sm text-slate-600">Compare contractor quotes before you sign.</p></div><span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-900">Educational tool</span></div></header>}
+import { Icon } from "../ui/Icon";
+
+export function Header() {
+  return (
+    <header className="qc-header">
+      <div className="qc-header-inner">
+        <div className="qc-brand">
+          <div className="qc-mark">
+            <Icon.home fill="" size={21} sw={2} style={{ color: "#fff" }} />
+          </div>
+          <div>
+            <div className="qc-brand-name">QuoteCheck Home</div>
+            <div className="qc-brand-sub">Compare contractor quotes before you sign.</div>
+          </div>
+        </div>
+        <span className="qc-edu-badge">
+          <span className="dot" />
+          Educational tool
+        </span>
+      </div>
+    </header>
+  );
+}

@@ -1,1 +1,13 @@
-@media print{body{background:white!important}.no-print{display:none!important}.print-only{display:block!important}.print-card{break-inside:avoid;box-shadow:none!important;border:1px solid #cbd5e1!important}main{max-width:100%!important;padding:0!important}}
+@media print {
+  body { background: #fff !important; }
+  .qc-app { background: #fff !important; }
+  .qc-header, .qc-footer, .no-print { display: none !important; }
+  .print-only { display: block !important; }
+  .qc-main { max-width: 100% !important; padding: 0 !important; }
+  .print-card, .qc-card {
+    break-inside: avoid;
+    box-shadow: none !important;
+    border: 1px solid #cbd5e1 !important;
+  }
+  .qc-stack > * + * { margin-top: 16px; }
+}

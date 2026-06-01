@@ -1,2 +1,63 @@
-import type { Report } from "../../types/report";import { Card } from "../ui/Card";import { Badge } from "../ui/Badge";import { formatCurrency } from "../../lib/formatCurrency";
-export function RiskSummary({report}:{report:Report}){const totalFlags=report.flags.length+report.missingScope.length;return <Card className="print-card"><div className="flex flex-wrap items-center justify-between gap-4"><div><h2 className="text-2xl font-black">Summary</h2><p className="mt-2 text-slate-600">{totalFlags===0?"No major missing-information flags were found from your entries.":`${totalFlags} items need clarification before signing.`}</p></div><Badge>{totalFlags>6?"Higher Risk":totalFlags>2?"Needs Clarification":"Ask Before Signing"}</Badge></div><div className="mt-5 grid gap-3 md:grid-cols-4"><div className="rounded-2xl bg-slate-100 p-4"><p className="text-xs font-bold uppercase text-slate-500">Lowest</p><p className="text-2xl font-black">{formatCurrency(report.spread.low)}</p></div><div className="rounded-2xl bg-slate-100 p-4"><p className="text-xs font-bold uppercase text-slate-500">Highest</p><p className="text-2xl font-black">{formatCurrency(report.spread.high)}</p></div><div className="rounded-2xl bg-slate-100 p-4"><p className="text-xs font-bold uppercase text-slate-500">Spread</p><p className="text-2xl font-black">{report.spread.spreadPercentFromLow}%</p></div><div className="rounded-2xl bg-slate-100 p-4"><p className="text-xs font-bold uppercase text-slate-500">Median</p><p className="text-2xl font-black">{report.spread.median===null?"N/A":formatCurrency(report.spread.median)}</p></div></div><p className="mt-4 text-sm text-slate-500">{report.spread.mathNote}</p></Card>}
+import type { Report } from "../../types/report";
+import { Card } from "../ui/Card";
+import { Badge } from "../ui/Badge";
+import { formatCurrency } from "../../lib/formatCurrency";
+
+export function RiskSummary({ report }: { report: Report }) {
+  const total = report.flags.length + report.missingScope.length;
+  const level =
+    total > 6
+      ? { t: "Higher risk", tone: "clay" as const }
+      : total > 2
+        ? { t: "Needs clarification", tone: "amber" as const }
+        : { t: "Ask before signing", tone: "teal" as const };
+
+  const pricedCount = report.rankedQuotes.filter((q) => q.totalPrice > 0).length;
+
+  return (
+    <Card className="print-card">
+      <div className="qc-row qc-between qc-wrap qc-gap-3">
+        <div>
+          <span className="qc-eyebrow">Summary</span>
+          <h2 className="qc-section-title" style={{ marginTop: 8 }}>
+            {total === 0
+              ? "No major flags from your entries."
+              : `${total} item${total === 1 ? "" : "s"} to clarify before signing.`}
+          </h2>
+          <p className="qc-section-sub" style={{ maxWidth: "52ch" }}>
+            Based only on what you entered. Price alone rarely tells the full story — read the items
+            below.
+          </p>
+        </div>
+        <Badge tone={level.tone} dot>
+          {level.t}
+        </Badge>
+      </div>
+      <div className="qc-stats">
+        <div className="qc-stat hl">
+          <div className="k">Lowest</div>
+          <div className="v tnum">{formatCurrency(report.spread.low)}</div>
+        </div>
+        <div className="qc-stat">
+          <div className="k">Highest</div>
+          <div className="v tnum">{formatCurrency(report.spread.high)}</div>
+        </div>
+        <div className="qc-stat">
+          <div className="k">Spread</div>
+          <div className="v tnum">{report.spread.spreadPercentFromLow}%</div>
+        </div>
+        <div className="qc-stat">
+          <div className="k">Median</div>
+          <div className="v tnum">
+            {report.spread.median === null ? "N/A" : formatCurrency(report.spread.median)}
+          </div>
+        </div>
+      </div>
+      <p style={{ fontSize: 13, color: "var(--muted)", marginTop: 16 }}>
+        {pricedCount < 3
+          ? "Median omitted — shown only with 3 or more priced quotes."
+          : report.spread.mathNote}
+      </p>
+    </Card>
+  );
+}
